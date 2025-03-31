@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Assignment</string>
+    <string name="title_activity_login_screen">LoginScreen</string>
+    <string name="title_activity_logup_screen">LogupScreen</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_welcome_scree">WelcomeScree</string>
+    <string name="title_activity_detail_screen">DetailScreen</string>
+    <string name="title_activity_favourite_screen">FavouriteScreen</string>
+    <string name="title_activity_cart">Cart</string>
+    <string name="title_activity_notification_screen">NotificationScreen</string>
+    <string name="title_activity_profile_screen">ProfileScreen</string>
+</resources>
