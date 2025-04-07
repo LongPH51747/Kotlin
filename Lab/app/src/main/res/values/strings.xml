@@ -3,4 +3,8 @@
     <string name="title_activity_bai1">Bai1</string>
     <string name="title_activity_bai2">Bai2</string>
     <string name="title_activity_bai3">Bai3</string>
+    <string name="title_activity_screen1">Screen1</string>
+    <string name="title_activity_screen2">Screen2</string>
+    <string name="title_activity_screen3">Screen3</string>
+    <string name="title_activity_movie_from_screen">MovieFromScreen</string>
 </resources>
