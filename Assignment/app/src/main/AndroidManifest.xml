@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,54 +14,68 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".screen.ProfileScreen"
+            android:name=".screen.EditScreen"
             android:exported="false"
-            android:label="@string/title_activity_profile_screen"
+            android:label="@string/title_activity_edit_screen"
             android:theme="@style/Theme.Assignment" />
         <activity
-            android:name=".screen.NotificationScreen"
+            android:name=".screen.NavNavigation"
             android:exported="false"
-            android:label="@string/title_activity_notification_screen"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.Cart"
-            android:exported="false"
-            android:label="@string/title_activity_cart"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.FavouriteScreen"
-            android:exported="false"
-            android:label="@string/title_activity_favourite_screen"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.DetailScreen"
-            android:exported="false"
-            android:label="@string/title_activity_detail_screen"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_welcome_scree"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.LoginScreen"
-            android:exported="false"
-            android:label="@string/title_activity_home_screen"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.LogupScreen"
-            android:exported="false"
-            android:label="@string/title_activity_logup_screen"
-            android:theme="@style/Theme.Assignment" />
-        <activity
-            android:name=".screen.WelcomeScree"
-            android:exported="false"
-            android:label="@string/title_activity_login_screen"
             android:theme="@style/Theme.Assignment" />
         <activity
             android:name=".screen.HomeScreen"
+            android:exported="false"
+            android:label="@string/title_activity_nav_navigation"
+            android:theme="@style/Theme.Assignment" /> <!-- <activity -->
+        <!-- android:name=".screen.ProfileScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_profile_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.NotificationScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_notification_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.Cart" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_cart" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.FavouriteScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_favourite_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.DetailScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_detail_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".MainActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_welcome_scree" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.LoginScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_home_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.LogupScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_logup_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <!-- <activity -->
+        <!-- android:name=".screen.WelcomeScree" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_login_screen" -->
+        <!-- android:theme="@style/Theme.Assignment" /> -->
+        <activity
+            android:name=".screen.AdminScreen"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Assignment">

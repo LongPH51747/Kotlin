@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import fpoly.longlt.assignment.R
 import fpoly.longlt.assignment.model.Product
 import fpoly.longlt.assignment.screen.ui.theme.AssignmentTheme
@@ -100,8 +101,12 @@ fun Header() {
 
 @Composable
 fun FavouriteActivity(products: List<Product>) {
-    Box(modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
-        LazyColumn(modifier = Modifier.padding(horizontal = 18.dp).padding(bottom = 120.dp)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 30.dp)) {
+        LazyColumn(modifier = Modifier
+            .padding(horizontal = 18.dp)
+            .padding(bottom = 120.dp)) {
             items(products) { item ->
                 Column {
 
@@ -110,8 +115,7 @@ fun FavouriteActivity(products: List<Product>) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row {
-                            Image(
-                                painter = painterResource(id = item.getImg()),
+                            AsyncImage(model = item.img,
                                 contentDescription = "img product",
                                 modifier = Modifier
                                     .width(100.dp)
@@ -123,12 +127,12 @@ fun FavouriteActivity(products: List<Product>) {
                                 modifier = Modifier.padding(20.dp, 0.dp)
                             ) {
                                 Text(
-                                    text = "${item.getName()}",
+                                    text = "${item.name}",
                                     fontSize = 16.sp,
                                     color = Color.Gray
                                 )
                                 Text(
-                                    text = "$${item.getPrice()}",
+                                    text = "$${item.price}",
                                     fontSize = 16.sp,
                                     color = Color.Black,
                                     modifier = Modifier.padding(0.dp, 5.dp)
@@ -217,10 +221,10 @@ fun FavouriteActivity(products: List<Product>) {
 @Composable
 fun preview() {
     var list = ArrayList<Product>()
-    list.add(Product(1, "Black Simple Lamp", 12.00, R.drawable.light, "Đẹp quá"))
-    list.add(Product(2, "Minimal Stand", 25.00, R.drawable.table, "Đẹp quá"))
-    list.add(Product(3, "Coffee Chair", 20.00, R.drawable.chair, "Đẹp quá"))
-    list.add(Product(4, "Simple Desk", 50.00, R.drawable.tu, "Đẹp quá"))
+//    list.add(Product(1, "Black Simple Lamp", 12.00, R.drawable.light, "Đẹp quá"))
+//    list.add(Product(2, "Minimal Stand", 25.00, R.drawable.table, "Đẹp quá"))
+//    list.add(Product(3, "Coffee Chair", 20.00, R.drawable.chair, "Đẹp quá"))
+//    list.add(Product(4, "Simple Desk", 50.00, R.drawable.tu, "Đẹp quá"))
     Column(
         modifier = Modifier
             .fillMaxSize()

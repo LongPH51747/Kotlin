@@ -66,7 +66,6 @@ class Bai2 : ComponentActivity() {
         setContent {
             Lab1Theme {
                 ScreenNavigation()
-
             }
 
         }

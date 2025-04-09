@@ -6,11 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,17 +19,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -39,11 +34,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import fpoly.longlt.assignment.R
 import fpoly.longlt.assignment.model.Category
 import fpoly.longlt.assignment.model.Product
 import fpoly.longlt.assignment.screen.ui.theme.AssignmentTheme
-import kotlin.math.log
+import fpoly.longlt.assignment.viewmodel.ProductViewModel
 
 class HomeScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +49,7 @@ class HomeScreen : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AssignmentTheme {
-                var list = ArrayList<Product>()
-                list.add(Product(1, "Black Simple Lamp", 12.00, R.drawable.light, "Đẹp quá"))
-                list.add(Product(2, "Minimal Stand", 25.00, R.drawable.table, "Đẹp quá"))
-                list.add(Product(3, "Coffee Chair", 20.00, R.drawable.chair, "Đẹp quá"))
-                list.add(Product(4, "Simple Desk", 50.00, R.drawable.tu, "Đẹp quá"))
-                val menus = ArrayList<Category>()
-                menus.add(Category(1, R.drawable.star, "Popular"))
-                menus.add(Category(2, R.drawable.chairicon, "Chair"))
-                menus.add(Category(3, R.drawable.tableicon, "Table"))
-                menus.add(Category(4, R.drawable.sofar, "Armchair"))
-                menus.add(Category(5, R.drawable.bed, "Bed"))
-                Column {
-                    headerHome()
-                    horizontalList(menuList = menus)
-                    vertivalList(productList = list)
-                    tabarBottom(R.drawable.home, R.drawable.favourite, R.drawable.bell, R.drawable.person)
-                }
+//                PreviewList()
             }
         }
     }
@@ -91,8 +73,18 @@ fun headerHome() {
         )
 
         Column {
-            Text(text = "Make home", fontFamily = FontFamily(Font(R.font.gelasio_medium)), color = Color.Gray, fontSize = 20.sp)
-            Text(text = "BEAUTIFUL", fontFamily = FontFamily(Font(R.font.gelasio_medium)), color = Color.Black, fontSize = 20.sp)
+            Text(
+                text = "Make home",
+                fontFamily = FontFamily(Font(R.font.gelasio_medium)),
+                color = Color.Gray,
+                fontSize = 20.sp
+            )
+            Text(
+                text = "BEAUTIFUL",
+                fontFamily = FontFamily(Font(R.font.gelasio_medium)),
+                color = Color.Black,
+                fontSize = 20.sp
+            )
         }
         Image(
             painter = painterResource(id = R.drawable.cart),
@@ -143,27 +135,28 @@ fun horizontalList(menuList: List<Category>) {
 }
 
 @Composable
-fun vertivalList(productList: List<Product>) {
+fun vertivalList(productList: List<Product>, onDetailClick: (id: String) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .padding(
-                bottom = 50.dp,
-                start = 30.dp
-            ),
+            .height(575.dp)
+            .padding(start = 15.dp, end = 15.dp)
+            ,
         verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         items(productList) { product ->
             Column(
                 modifier = Modifier
                     .width(160.dp)
                     .height(255.dp)
+                    .clickable { onDetailClick(product.id) }
             ) {
-                Image(
-                    painter = painterResource(id = product.getImg()),
+                AsyncImage(
+                    model = product.img,
                     contentDescription = "image product",
                     modifier = Modifier
-                        .width(160.dp)
+                        .fillMaxWidth()
                         .height(200.dp)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop,
@@ -171,13 +164,13 @@ fun vertivalList(productList: List<Product>) {
 
                     )
                 Text(
-                    text = "${product.getName()}",
+                    text = "${product.name}",
                     fontSize = 14.sp,
                     color = Color.Gray,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text = "$ ${product.getPrice()}",
+                    text = "$ ${product.price}",
                     fontSize = 14.sp,
                     color = Color.Black,
                     modifier = Modifier.padding(top = 5.dp)
@@ -188,7 +181,7 @@ fun vertivalList(productList: List<Product>) {
 }
 
 @Composable
-fun tabarBottom(home: Int, favourite: Int, notifi: Int, person: Int){
+fun tabarBottom(home: Int, favourite: Int, notifi: Int, person: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -197,28 +190,48 @@ fun tabarBottom(home: Int, favourite: Int, notifi: Int, person: Int){
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(painter = painterResource(id = home), contentDescription = "home icon", modifier = Modifier
-            .width(25.dp)
-            .height(25.dp))
-        Image(painter = painterResource(id = favourite), contentDescription = "favourite icon", modifier = Modifier
-            .width(25.dp)
-            .height(25.dp))
-        Image(painter = painterResource(id = notifi), contentDescription = "bell icon", modifier = Modifier
-            .width(25.dp)
-            .height(25.dp))
-        Image(painter = painterResource(id = person), contentDescription = "person icon", modifier = Modifier
-            .width(25.dp)
-            .height(25.dp))
+        Image(
+            painter = painterResource(id = home),
+            contentDescription = "home icon",
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
+        )
+        Image(
+            painter = painterResource(id = favourite),
+            contentDescription = "favourite icon",
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
+        )
+        Image(
+            painter = painterResource(id = notifi),
+            contentDescription = "bell icon",
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
+        )
+        Image(
+            painter = painterResource(id = person),
+            contentDescription = "person icon",
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
+        )
     }
 }
-@Preview
+
+//@Preview
 @Composable
-fun PreviewList() {
-    val list = ArrayList<Product>()
-    list.add(Product(1, "Black Simple Lamp", 12.00, R.drawable.light, "Đẹp quá"))
-    list.add(Product(2, "Minimal Stand", 25.00, R.drawable.table, "Đẹp quá"))
-    list.add(Product(3, "Coffee Chair", 20.00, R.drawable.chair, "Đẹp quá"))
-    list.add(Product(4, "Simple Desk", 50.00, R.drawable.tu, "Đẹp quá"))
+fun PreviewList(navController: NavController) {
+//    val list = ArrayList<Product>()
+//    list.add(Product(1, "Black Simple Lamp", 12.00, R.drawable.light, "Đẹp quá"))
+//    list.add(Product(2, "Minimal Stand", 25.00, R.drawable.table, "Đẹp quá"))
+//    list.add(Product(3, "Coffee Chair", 20.00, R.drawable.chair, "Đẹp quá"))
+//    list.add(Product(4, "Simple Desk", 50.00, R.drawable.tu, "Đẹp quá"))
+    val productViewModel = ProductViewModel()
+    val productState = productViewModel.products.observeAsState(initial = emptyList())
+    var products = productState.value
     val menus = ArrayList<Category>()
     menus.add(Category(1, R.drawable.star, "Popular"))
     menus.add(Category(2, R.drawable.chairicon, "Chair"))
@@ -232,11 +245,20 @@ fun PreviewList() {
     ) {
         headerHome()
         horizontalList(menuList = menus)
-        vertivalList(productList = list)
+        vertivalList(
+            productList = products,
+            onDetailClick = { navController.navigate("${Screen.DETAILSCREEN.route}/${it}") }
+        )
         tabarBottom(R.drawable.home, R.drawable.favourite, R.drawable.bell, R.drawable.person)
     }
 }
 
+@Preview
+@Composable
+fun HomeScreenActivity(){
+    val navController = rememberNavController()
+    PreviewList(navController = navController)
+}
 
 @Preview(showBackground = true)
 @Composable

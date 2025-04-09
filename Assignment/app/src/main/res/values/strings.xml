@@ -9,4 +9,7 @@
     <string name="title_activity_cart">Cart</string>
     <string name="title_activity_notification_screen">NotificationScreen</string>
     <string name="title_activity_profile_screen">ProfileScreen</string>
+    <string name="title_activity_nav_navigation">NavNavigation</string>
+    <string name="title_activity_admin_screen">AdminScreen</string>
+    <string name="title_activity_edit_screen">EditScreen</string>
 </resources>
