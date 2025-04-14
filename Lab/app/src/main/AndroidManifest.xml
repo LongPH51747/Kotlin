@@ -22,7 +22,7 @@
             android:label="@string/title_activity_movie_from_screen"
             android:theme="@style/Theme.Lab1" />
         <activity
-            android:name="fpoly.longlt.lab.lab7.Bai3"
+            android:name="fpoly.longlt.lab.lab6.Bai3"
             android:exported="false"
             android:label="@string/title_activity_bai1"
             android:theme="@style/Theme.Lab1" />
@@ -31,11 +31,7 @@
             android:exported="false"
             android:label="@string/title_activity_bai3"
             android:theme="@style/Theme.Lab1" />
-        <activity
-            android:name="fpoly.longlt.lab.lab6.Bai3"
-            android:exported="false"
-            android:label="@string/title_activity_bai1"
-            android:theme="@style/Theme.Lab1" />
+
         <activity
             android:name="fpoly.longlt.lab.lab3.Bai1"
             android:exported="false"
@@ -57,32 +53,37 @@
             android:label="@string/title_activity_bai1"
             android:theme="@style/Theme.Lab1" />
         <activity
+            android:name="fpoly.longlt.lab.lab7.Bai2"
+            android:exported="false"
+            android:label="@string/title_activity_bai2"
+            android:theme="@style/Theme.Lab1" />
+        <activity
             android:name="fpoly.longlt.lab.lab5.Bai2"
             android:exported="false"
             android:label="@string/title_activity_bai3"
             android:theme="@style/Theme.Lab1" />
         <activity
-            android:name="fpoly.longlt.lab.lab5.Bai1"
+            android:name="fpoly.longlt.lab.lab6.Bai1"
             android:exported="false"
             android:label="@string/title_activity_bai2"
             android:theme="@style/Theme.Lab1" />
         <activity
-            android:name="fpoly.longlt.lab.lab5.Bai3"
+            android:name="fpoly.longlt.lab.lab5.Bai1"
             android:exported="false"
             android:label="@string/title_activity_bai3"
             android:theme="@style/Theme.Lab1" />
         <activity
-            android:name="fpoly.longlt.lab.lab6.Bai2"
-            android:exported="false"
-            android:label="@string/title_activity_bai2"
-            android:theme="@style/Theme.Lab1" />
-        <activity
-            android:name="fpoly.longlt.lab.lab6.Bai1"
+            android:name="fpoly.longlt.lab.lab5.Bai3"
             android:exported="false"
             android:label="@string/title_activity_bai1"
             android:theme="@style/Theme.Lab1" />
         <activity
-            android:name="fpoly.longlt.lab.lab7.Bai2"
+            android:name="fpoly.longlt.lab.lab6.Bai2"
+            android:exported="false"
+            android:label="@string/title_activity_bai1"
+            android:theme="@style/Theme.Lab1" />
+        <activity
+            android:name="fpoly.longlt.lab.lab7.Bai3"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

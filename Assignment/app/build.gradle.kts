@@ -76,7 +76,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation ("io.coil-kt:coil-compose:2.0.0")
     // ViewModel và LiveData
-
+    implementation ("androidx.compose.material3:material3:1.1.2")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 

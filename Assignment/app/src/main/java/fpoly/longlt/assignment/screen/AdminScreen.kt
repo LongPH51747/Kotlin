@@ -1,6 +1,7 @@
 package fpoly.longlt.assignment.screen
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,15 +17,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,20 +59,23 @@ class AdminScreen : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AssignmentTheme {
-                val navController = rememberNavController()
-                val productViewModel = ProductViewModel()
-                ScreenAdmin(navController = navController, productViewModel = productViewModel)
             }
         }
     }
 }
 
 @Composable
-fun ListViewAdmin(productList: List<Product>, onDetailClick: (String) -> Unit) {
+fun ListViewAdmin(
+    productList: List<Product>,
+    onDetailClick: (String) -> Unit,
+    onEditClick: (id: String) -> Unit,
+    onDeleteClick: (id: String) -> Unit,
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
+        state = rememberLazyGridState(),
         modifier = Modifier
-            .padding(start = 15.dp, end = 15.dp, bottom = 20.dp)
+            .padding(start = 15.dp, end = 15.dp, bottom = 60.dp, top = 10.dp)
             .fillMaxHeight(),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
@@ -75,7 +86,7 @@ fun ListViewAdmin(productList: List<Product>, onDetailClick: (String) -> Unit) {
                 .height(255.dp)
                 .clickable { onDetailClick(product.id) }) {
                 AsyncImage(
-                    model = product.img,
+                    model = product.image,
                     contentDescription = "image product",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -85,7 +96,10 @@ fun ListViewAdmin(productList: List<Product>, onDetailClick: (String) -> Unit) {
                     alignment = Alignment.BottomCenter,
 
                     )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Column {
                         Text(
                             text = "${product.name}",
@@ -101,11 +115,25 @@ fun ListViewAdmin(productList: List<Product>, onDetailClick: (String) -> Unit) {
                         )
                     }
                     Column() {
-                        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(30.dp)) {
-                            Icon(painter = painterResource(id = R.drawable.delete), contentDescription = "delete", modifier = Modifier.size(18.dp))
+                        IconButton(
+                            onClick = { onDeleteClick(product.id) },
+                            modifier = Modifier.size(30.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.delete),
+                                contentDescription = "delete",
+                                modifier = Modifier.size(18.dp)
+                            )
                         }
-                        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(30.dp)) {
-                            Icon(painter = painterResource(id = R.drawable.edit_2), contentDescription = "edit", modifier = Modifier.size(18.dp))
+                        IconButton(
+                            onClick = { onEditClick(product.id) },
+                            modifier = Modifier.size(30.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.edit_2),
+                                contentDescription = "edit",
+                                modifier = Modifier.size(18.dp)
+                            )
                         }
                     }
                 }
@@ -114,10 +142,15 @@ fun ListViewAdmin(productList: List<Product>, onDetailClick: (String) -> Unit) {
     }
 }
 
+
 @Composable
 fun ScreenAdmin(navController: NavController, productViewModel: ProductViewModel) {
-    val navController = rememberNavController()
     val productState = productViewModel.products.observeAsState(initial = emptyList())
+    val deleteSuccess by productViewModel.issuccess.observeAsState()
+    LaunchedEffect(Unit) {
+        productViewModel.getProduct()
+    }
+
     val products = productState.value
     Column(
         modifier = Modifier
@@ -131,8 +164,25 @@ fun ScreenAdmin(navController: NavController, productViewModel: ProductViewModel
             fontSize = 25.sp,
             modifier = Modifier.padding(top = 20.dp)
         )
+        Button(
+            onClick = { navController.navigate(Screen.ADD.route) },
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .widthIn(min = 100.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Black,
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(text = "Thêm sản phẩm", fontSize = 15.sp)
+        }
         ListViewAdmin(productList = products,
-            onDetailClick = { navController.navigate("${Screen.DETAILSCREEN.route}/${it}") })
+            onDetailClick = { navController.navigate("${Screen.DETAILSCREEN.route}/${it}") },
+            onEditClick = { navController.navigate("${Screen.EDIT.route}/${it}") },
+            onDeleteClick = { productViewModel.deleteProduct(it) }
+        )
     }
 }
 

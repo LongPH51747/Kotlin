@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,8 +35,8 @@ class NavNavigation : ComponentActivity() {
 @Composable
 fun ScreenNavigation() {
     val navController = rememberNavController()
-    val productViewModel = ProductViewModel()
-    NavHost(navController = navController, startDestination = Screen.HOMESCREEN.route) {
+    val productViewModel: ProductViewModel = viewModel()
+    NavHost(navController = navController, startDestination = Screen.WELCOMESCREEN.route) {
         composable(Screen.HOMESCREEN.route) {
             PreviewList(navController)
         }
@@ -50,6 +51,25 @@ fun ScreenNavigation() {
         }
         composable(Screen.ADMINSCREEN.route) {
             ScreenAdmin(navController, productViewModel)
+        }
+        composable(Screen.ADD.route) {
+            ScreenFormData(navController, productViewModel, id = null)
+        }
+        composable("${Screen.EDIT.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType })) {
+            backStackEntry ->
+            backStackEntry.arguments?.getString("id")?.let {
+                id -> ScreenFormData(navController, productViewModel,id)
+            }
+        }
+        composable(Screen.WELCOMESCREEN.route) {
+            BackGround(navController)
+        }
+        composable(Screen.LOGIN.route) {
+            LoginActivity(navController)
+        }
+        composable(Screen.LOGUP.route) {
+            LogupActivity(navController)
         }
     }
 }

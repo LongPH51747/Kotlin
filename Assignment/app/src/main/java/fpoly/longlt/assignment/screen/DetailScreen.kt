@@ -90,7 +90,7 @@ fun Detail(
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
-                    model = "${it.img}",
+                    model = "${it.image}",
                     contentDescription = "img product",
                     modifier = Modifier
                         .width(350.dp)

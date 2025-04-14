@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import fpoly.longlt.assignment.R
 import fpoly.longlt.assignment.screen.ui.theme.AssignmentTheme
 
@@ -60,9 +61,9 @@ fun Greeting3(name: String, modifier: Modifier = Modifier) {
         modifier = modifier
     )
 }
-@Preview
+
 @Composable
-fun LogupActivity() {
+fun LogupActivity(navController: NavController) {
     var username = ""
     var password = ""
     var name = ""
@@ -191,7 +192,7 @@ fun LogupActivity() {
                             fontSize = 14.sp,
                             color = Color.Gray
                         )
-                        Text(text = " SIGN IN", fontSize = 14.sp, color = Color.Black, modifier = Modifier.clickable { println("clicked") })
+                        Text(text = " SIGN IN", fontSize = 14.sp, color = Color.Black, modifier = Modifier.clickable { navController.navigate(Screen.LOGIN.route) })
                     }
                 }
 

@@ -29,6 +29,10 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -39,6 +43,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import fpoly.longlt.assignment.R
 import fpoly.longlt.assignment.screen.ui.theme.AssignmentTheme
 
@@ -48,7 +53,6 @@ class LoginScreen : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AssignmentTheme {
-                LoginActivity()
             }
         }
     }
@@ -62,11 +66,14 @@ fun TextView(hello: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview
 @Composable
-fun LoginActivity() {
-    var username = ""
-    var password = ""
+fun LoginActivity(navController: NavController) {
+    var username by remember {
+        mutableStateOf("")
+    }
+    var password by remember {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -74,7 +81,9 @@ fun LoginActivity() {
             .background(Color.White)
     ) {
         Row(
-            modifier = Modifier.padding(top = 85.dp).align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .padding(top = 85.dp)
+                .align(Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Divider(
@@ -102,9 +111,11 @@ fun LoginActivity() {
         Column(
             modifier = Modifier.padding(top = 35.dp, start = 30.dp),
         ) {
-            Text(text = "Hello !",
+            Text(
+                text = "Hello !",
                 fontFamily = FontFamily(Font(R.font.gelasio_medium)),
-                color = Color.Gray, fontSize = 30.sp)
+                color = Color.Gray, fontSize = 30.sp
+            )
             Text(
                 text = "Welcome Back",
                 fontFamily = FontFamily(Font(R.font.gelasio_medium)),
@@ -158,7 +169,13 @@ fun LoginActivity() {
                         fontSize = 18.sp
                     )
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            if (username.equals("admin") && password.equals("admin")) {
+                                navController.navigate(Screen.ADMINSCREEN.route)
+                            } else if (username.equals("long") && password.equals("123")) {
+                                navController.navigate(Screen.HOMESCREEN.route)
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                         modifier = Modifier
                             .padding(bottom = 30.dp)
@@ -170,7 +187,9 @@ fun LoginActivity() {
                     }
                     Text(
                         text = "SIGN UP",
-                        modifier = Modifier.padding(bottom = 30.dp).clickable { println("clicked") },
+                        modifier = Modifier
+                            .padding(bottom = 30.dp)
+                            .clickable { navController.navigate(Screen.LOGUP.route) },
                         fontSize = 18.sp
                     )
                 }

@@ -112,7 +112,7 @@ fun CartActivity(products: List<Product>) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row {
-                            AsyncImage(model = item.img,
+                            AsyncImage(model = item.image,
                                 contentDescription = "img product",
                                 modifier = Modifier
                                     .width(100.dp)
@@ -220,7 +220,7 @@ fun CartActivity(products: List<Product>) {
             ) {
 
                 Text(text = "Total:", fontSize = 20.sp)
-                Text(text = "$${products.sumOf { it.price }}", fontSize = 20.sp)
+//                Text(text = "$${products.sumOf { it.price }}", fontSize = 20.sp)
             }
             Button(
                 onClick = { /*TODO*/ },

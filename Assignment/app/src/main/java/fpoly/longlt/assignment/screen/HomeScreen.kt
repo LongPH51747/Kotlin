@@ -153,7 +153,7 @@ fun vertivalList(productList: List<Product>, onDetailClick: (id: String) -> Unit
                     .clickable { onDetailClick(product.id) }
             ) {
                 AsyncImage(
-                    model = product.img,
+                    model = product.image,
                     contentDescription = "image product",
                     modifier = Modifier
                         .fillMaxWidth()

@@ -12,4 +12,5 @@
     <string name="title_activity_nav_navigation">NavNavigation</string>
     <string name="title_activity_admin_screen">AdminScreen</string>
     <string name="title_activity_edit_screen">EditScreen</string>
+    <string name="title_activity_data_form_screen">DataFormScreen</string>
 </resources>

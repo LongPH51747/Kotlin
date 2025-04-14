@@ -115,7 +115,7 @@ fun FavouriteActivity(products: List<Product>) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row {
-                            AsyncImage(model = item.img,
+                            AsyncImage(model = item.image,
                                 contentDescription = "img product",
                                 modifier = Modifier
                                     .width(100.dp)
